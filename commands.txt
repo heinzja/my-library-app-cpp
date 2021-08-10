@@ -1,0 +1,2 @@
+build / compile command
+cl /EHsc src\main.cpp src\*.cpp /I "include" /link /out:"out\main.exe"
