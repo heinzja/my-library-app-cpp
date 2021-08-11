@@ -7,20 +7,23 @@ std::string title = "default";
 std::string description = "default";
 std::string contents = "default";
 bool checked_out = false;
-int max_title_length = 10;
-int max_description_length = 100;
-int max_contents_length = 100;
 
 // public
-Book::Book(std::string title, std::string description, std::string contents)
+Book::Book(std::string new_title, std::string description, std::string contents)
 {
-    if (title.length() > 0 && title.length() <= max_title_length)
+    std::cout << "new_title: " << new_title << std::endl;
+    std::cout << "new_title.length: " << new_title.length() << std::endl;
+    std::cout << "new_title.size: " << new_title.size() << std::endl;
+
+    std::cout << "title: " << this->title << std::endl;
+
+    std::string str = new_title;
+    std::cout << str << std::endl;
+    if (new_title.length() > 0 && new_title.length() <= max_title_length)
     {
-        this->title = title;
-    }
-    else
-    {
-        // throw error
+        this->title = str;
+        std::cout << "string > 0 && string <= " << max_title_length << " -> " << str << this->title << std::endl;
+    } else {
         throw std::invalid_argument("title length error");
     }
 
@@ -74,7 +77,9 @@ void Book::set_title(std::string new_title)
     }
     else
     {
-        std::cout << "Error: set_title() -> title.length()" << std::endl;
+
+        // throw error
+        throw std::invalid_argument("Error: set_title() -> title.length()");
     }
 }
 
@@ -87,7 +92,9 @@ void Book::set_description(std::string new_description)
     }
     else
     {
-        std::cout << "Error: set_description() -> description.length()" << std::endl;
+
+        // throw error
+        throw std::invalid_argument("Error: set_description() -> description.length()");
     }
 }
 
@@ -100,7 +107,8 @@ void Book::set_contents(std::string new_contents)
     }
     else
     {
-        std::cout << "Error: set_contents() -> contents.length()" << std::endl;
+        // throw error
+        throw std::invalid_argument("Error: set_contents() -> contents.length()");
     }
 }
 

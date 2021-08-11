@@ -25,9 +25,9 @@ private:
     std::string description;
     std::string contents;
     bool checked_out;
-    int max_title_length;
-    int max_description_length;
-    int max_contents_length;
+    static const unsigned int max_title_length = 10;
+    static const unsigned int max_description_length = 100;
+    static const unsigned int max_contents_length = 100;
 };
 
 #endif

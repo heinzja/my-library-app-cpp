@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <map>
+#include <iterator>
 #include <string>
 #include "book.h"
 
@@ -18,7 +19,7 @@ public:
     void Library::display_available_books();
 
 private:
-    std::map<std::string, Book> database[5];
+    std::map<std::string, Book> database;
     int get_database_size();
 };
 
