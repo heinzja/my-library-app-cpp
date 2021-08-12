@@ -27,8 +27,22 @@ void Library::remove_book(string book_title)
 {
     try
     {
-        database.erase(book_title);
-        cout << "Title: " << book_title << " has been removed from the Library." << endl;
+        if (book_title.length() > 0 && book_title.length() <= Book::max_title_length)
+        {
+            if (does_book_exist_in_database(book_title))
+            {
+                database.erase(book_title);
+                cout << "Title: " << book_title << " has been removed from the Library." << endl;
+            }
+            else
+            {
+                throw exception("Error: Book Does Not Exist in Database");
+            }
+        }
+        else
+        {
+            throw exception("Error: Book Title Length");
+        }
     }
     catch (exception &e)
     {
@@ -36,7 +50,7 @@ void Library::remove_book(string book_title)
     }
 }
 
-void Library::checkout_book(string book_title)
+Book Library::checkout_book(string book_title)
 {
     // check if book exists in database
     try
@@ -45,18 +59,26 @@ void Library::checkout_book(string book_title)
         if (book_title.length() > 0 && book_title.length() <= Book::max_title_length)
         {
             // if title exists in map switch checkout flag to true
-            if (database.at(book_title).get_checkout_status() != true)
+            if (does_book_exist_in_database(book_title))
             {
-                database.at(book_title).set_checkout_status(true);
+                if (database.at(book_title).get_checkout_status() != true)
+                {
+                    database.at(book_title).set_checkout_status(true);
+                    return database.at(book_title);
+                }
+                else
+                {
+                    throw exception("Error: Book Already Checked Out");
+                }
             }
             else
             {
-                throw exception("Error: Book Already Checked Out");
+                throw exception("Error: Book Does Not Exist in Database");
             }
         }
         else
         {
-            throw invalid_argument("Error: Book Length Error");
+            throw invalid_argument("Error: Book Title Length");
         }
     }
     catch (exception &e)
@@ -94,13 +116,35 @@ void Library::return_book(string book_title)
     }
 }
 
-void Library::preview_book(Book book)
+void Library::preview_book(string book_title)
 {
+    // check if book exists in database
     try
     {
-        cout << book.get_title() << endl;
-        cout << book.get_description() << endl;
-        cout << endl;
+        // check user input
+        if (book_title.length() > 0 && book_title.length() <= Book::max_title_length)
+        {
+            // if title exists in map switch checkout flag to true
+            if (does_book_exist_in_database(book_title))
+            {
+                if (database.at(book_title).get_checkout_status() != false)
+                {
+                    database.at(book_title).set_checkout_status(false);
+                }
+                else
+                {
+                    throw exception("Error: Book Already Returned");
+                }
+            }
+            else
+            {
+                throw exception("Error: Book Does Not Exist In Database");
+            }
+        }
+        else
+        {
+            throw invalid_argument("Error: Book Length Error");
+        }
     }
     catch (exception &e)
     {
@@ -134,4 +178,23 @@ void Library::display_available_books()
 int get_database_size()
 {
     return database.size();
+}
+
+bool does_book_exist_in_database(string book_title)
+{
+    try
+    {
+        std::map<string, Book>::iterator it;
+        if (database.find(book_title) != database.end())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    catch (exception &e)
+    {
+    }
 }

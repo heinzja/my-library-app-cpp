@@ -80,6 +80,14 @@ int main(int argc, char *argv[])
       };
       case '5':
       {
+         cout << "Type the Title of the Book You Wish to Preview" << endl;
+         string user_input;
+         cin >> user_input;
+         lib.preview_book(user_input);
+         break;
+      };
+      case '6':
+      {
          cout << "Closing Application" << endl;
          exit(0);
          break;
