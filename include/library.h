@@ -5,6 +5,7 @@
 #include <map>
 #include <iterator>
 #include <string>
+#include <stdexcept>
 #include "book.h"
 
 class Library

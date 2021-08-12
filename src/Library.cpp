@@ -1,57 +1,137 @@
 #include "library.h"
 
-std::map<std::string, Book> database;
+using namespace std;
+map<string, Book> database;
 
-Library::Library() {
-
+Library::Library()
+{
 }
 
 //public
 
-void Library::add_book(Book book) {
-    std::cout << "Adding Book Title: " << book.get_title() << std::endl;
-
-    database.insert(std::make_pair(book.get_title(), book));
-    std::cout << "Title: " << database.at(book.get_title()).get_title() << " has been added to the Library." << std::endl;
-
-}
-
-void Library::remove_book(std::string book_title) {
-    database.erase(book_title);
-    std::cout << "Title: " << book_title << " has been removed from the Library." << std::endl;
-
-}
-
-void Library::checkout_book(std::string book_title) {
-    // check if book exists in database
-    // switch checkout flag to true
-    database.at(book_title).set_checkout_status(true);
-}
-
-void Library::return_book(std::string book_title) {
-    database.at(book_title).set_checkout_status(false);
-}
-
-void Library::preview_book(Book book) {
-    std::cout << book.get_title() << std::endl;
-    std::cout << book.get_description() << std::endl;
-}
-
-void Library::display_available_books(){
-    // loop through map displaying title of each book
-    std::map<std::string, Book>::iterator it;
-    std::cout << "display_available_books" << std::endl;
-    std::cout << database.size() << std::endl;
-    for (it = database.begin(); it != database.end(); it++)
+void Library::add_book(Book book)
+{
+    try
     {
-        std::cout << "display_available_books" << std::endl;
-        std::cout << "Title: " << it->first << std::endl;
-        std::cout << "Description: " << it->second.get_description() << std::endl;
-        std::cout << "" << it->second.get_description() << std::endl;
+        cout << "Adding Book Title: " << book.get_title() << endl;
+        database.insert(make_pair(book.get_title(), book));
+        cout << "Title: " << database.at(book.get_title()).get_title() << " has been added to the Library." << endl;
+    }
+    catch (exception &e)
+    {
+        cout << e.what() << endl;
     }
 }
 
-//private 
-int get_database_size(){
+void Library::remove_book(string book_title)
+{
+    try
+    {
+        database.erase(book_title);
+        cout << "Title: " << book_title << " has been removed from the Library." << endl;
+    }
+    catch (exception &e)
+    {
+        cout << e.what() << endl;
+    }
+}
+
+void Library::checkout_book(string book_title)
+{
+    // check if book exists in database
+    try
+    {
+        // check user input
+        if (book_title.length() > 0 && book_title.length() <= Book::max_title_length)
+        {
+            // if title exists in map switch checkout flag to true
+            if (database.at(book_title).get_checkout_status() != true)
+            {
+                database.at(book_title).set_checkout_status(true);
+            }
+            else
+            {
+                throw exception("Error: Book Already Checked Out");
+            }
+        }
+        else
+        {
+            throw invalid_argument("Error: Book Length Error");
+        }
+    }
+    catch (exception &e)
+    {
+        cout << e.what() << endl;
+    }
+}
+
+void Library::return_book(string book_title)
+{
+    // check if book exists in database
+    try
+    {
+        // check user input
+        if (book_title.length() > 0 && book_title.length() <= Book::max_title_length)
+        {
+            // if title exists in map switch checkout flag to true
+            if (database.at(book_title).get_checkout_status() != false)
+            {
+                database.at(book_title).set_checkout_status(false);
+            }
+            else
+            {
+                throw exception("Error: Book Already Returned");
+            }
+        }
+        else
+        {
+            throw invalid_argument("Error: Book Length Error");
+        }
+    }
+    catch (exception &e)
+    {
+        cout << e.what() << endl;
+    }
+}
+
+void Library::preview_book(Book book)
+{
+    try
+    {
+        cout << book.get_title() << endl;
+        cout << book.get_description() << endl;
+        cout << endl;
+    }
+    catch (exception &e)
+    {
+        cout << e.what() << endl;
+    }
+}
+
+void Library::display_available_books()
+{
+
+    map<string, Book>::iterator it;
+    cout << "display_available_books" << endl;
+    cout << database.size() << endl;
+    // loop through map displaying title of each book
+    for (it = database.begin(); it != database.end(); it++)
+    {
+        cout << "display_available_books" << endl;
+        cout << "Title: " << it->first << endl;
+        if (it->second.get_checkout_status() == 0)
+        {
+            cout << "\tChecked Out: false" << endl;
+        }
+        else
+        {
+            cout << "\tChecked Out: true" << endl;
+        }
+    }
+}
+
+//private
+int get_database_size()
+{
     return database.size();
 }

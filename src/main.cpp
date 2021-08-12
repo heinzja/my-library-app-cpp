@@ -22,44 +22,50 @@ int main(int argc, char *argv[])
    }
    catch (invalid_argument &e)
    {
-      std::cout << e.what() << std::endl;
+      cout << e.what() << endl;
    }
 
    while (1 == 1)
    {
 
       // display start-up message
-      cout << "Welcome to the Library\n";
+      cout << "Welcome to the Library" << endl;
 
       // display Library Menu
-      cout << "1 - view all library books\n";
-      cout << "2 - checkout book\n";
-      cout << "3 - return book\n";
-      cout << "4 - view checkedout books\n";
-
+      cout << "1 - view all library books" << endl;
+      cout << "2 - checkout book" << endl;
+      cout << "3 - return book" << endl;
+      cout << "4 - view checkedout books" << endl;
+      cout << "5 - exit application" << endl;
       // get user input
       char user_input;
       cin >> user_input;
       // check if input is valid
-      cout << "user_input = " << user_input << "\n";
+      cout << "user_input = " << user_input << "" << endl;
       // select option from available list
       switch (user_input)
       {
       case '1':
       {
-         cout << "Library Book Database\n";
+         cout << "Library Book Database" << endl;
          // loop through map and display each title
          lib.display_available_books();
          break;
       };
       case '2':
       {
-         cout << "Type the title of the book you wish you checkout.\n";
+         cout << "Type the title of the book you wish you checkout." << endl;
+         string user_input;
+         cin >> user_input;
+         lib.checkout_book(user_input);
          break;
       };
       case '3':
       {
-         cout << "Type the title of the book you wish to return.\n";
+         cout << "Type the title of the book you wish to return." << endl;
+         string user_input;
+         cin >> user_input;
+         lib.return_book(user_input);
          // get user input
          // check if input is valid
          // check to see if key exists in map of database
@@ -68,14 +74,19 @@ int main(int argc, char *argv[])
       };
       case '4':
       {
-         cout << "Currently Checkedout Books:\n";
+         cout << "Currently Checkedout Books:" << endl;
          // prints out list of checked out books
+         break;
+      };
+      case '5':
+      {
+         cout << "Closing Application" << endl;
+         exit(0);
          break;
       };
       default:
       {
-         cout << "user_input = " + user_input << std::endl;
-         exit(1);
+         cout << "user_input = " + user_input << endl;
          break;
       };
       }
