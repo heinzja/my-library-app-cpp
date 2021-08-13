@@ -15,14 +15,16 @@ public:
     void Library::add_book(Book book);
     void Library::remove_book(std::string book_title);
     void Library::return_book(std::string book_title);
-    void Library::preview_book(string book_title);
+    void Library::preview_book(std::string book_title);
     void Library::display_available_books();
-    Book Library::checkout_book(std::string book_title);
+    void Library::display_checked_out_books();
+    void Library::checkout_book(std::string book_title);
 
 private:
     std::map<std::string, Book> database;
-    int get_database_size();
-    bool does_book_exist_in_database(string book_title);
+    std::map<std::string, Book> checked_out_database;
+    int Library::get_database_size();
+    bool Library::does_book_exist_in_database(std::string book_title);
 };
 
 #endif

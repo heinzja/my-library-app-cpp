@@ -2,6 +2,7 @@
 
 using namespace std;
 map<string, Book> database;
+map<string, Book> checked_out_database;
 
 Library::Library()
 {
@@ -50,7 +51,7 @@ void Library::remove_book(string book_title)
     }
 }
 
-Book Library::checkout_book(string book_title)
+void Library::checkout_book(string book_title)
 {
     // check if book exists in database
     try
@@ -64,7 +65,8 @@ Book Library::checkout_book(string book_title)
                 if (database.at(book_title).get_checkout_status() != true)
                 {
                     database.at(book_title).set_checkout_status(true);
-                    return database.at(book_title);
+                    checked_out_database.insert(make_pair(book_title, database.at(book_title)));
+                    cout << "You Have Checked Out: " << checked_out_database.at(book_title).get_title() << endl;
                 }
                 else
                 {
@@ -99,6 +101,7 @@ void Library::return_book(string book_title)
             if (database.at(book_title).get_checkout_status() != false)
             {
                 database.at(book_title).set_checkout_status(false);
+                checked_out_database.erase(book_title);
             }
             else
             {
@@ -127,14 +130,8 @@ void Library::preview_book(string book_title)
             // if title exists in map switch checkout flag to true
             if (does_book_exist_in_database(book_title))
             {
-                if (database.at(book_title).get_checkout_status() != false)
-                {
-                    database.at(book_title).set_checkout_status(false);
-                }
-                else
-                {
-                    throw exception("Error: Book Already Returned");
-                }
+                cout << "Title:\n\t" << database.at(book_title).get_title() << endl;
+                cout << "Description\n\t" << database.at(book_title).get_description() << endl;
             }
             else
             {
@@ -174,17 +171,31 @@ void Library::display_available_books()
     }
 }
 
+void Library::display_checked_out_books()
+{
+    map<string, Book>::iterator it;
+    cout << "display_checked_out_books" << endl;
+    cout << checked_out_database.size() << endl;
+    // loop through map displaying title of each book
+    for (it = checked_out_database.begin(); it != checked_out_database.end(); it++)
+    {
+        cout << "Title: " << it->first << endl;
+    }
+}
+
 //private
-int get_database_size()
+int Library::get_database_size()
 {
     return database.size();
 }
 
-bool does_book_exist_in_database(string book_title)
+// checks to see if a specific book exists in the database
+// by checked if the book title matches possible keys available
+bool Library::does_book_exist_in_database(string book_title)
 {
     try
     {
-        std::map<string, Book>::iterator it;
+        map<string, Book>::iterator it;
         if (database.find(book_title) != database.end())
         {
             return true;
@@ -196,5 +207,7 @@ bool does_book_exist_in_database(string book_title)
     }
     catch (exception &e)
     {
+        cout << e.what() << endl;
+        return false;
     }
 }

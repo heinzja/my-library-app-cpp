@@ -35,13 +35,13 @@ int main(int argc, char *argv[])
       cout << "1 - view all library books" << endl;
       cout << "2 - checkout book" << endl;
       cout << "3 - return book" << endl;
-      cout << "4 - view checkedout books" << endl;
-      cout << "5 - exit application" << endl;
+      cout << "4 - view checked out books" << endl;
+      cout << "5 - preview book" << endl;
+      cout << "6 - read checked out book" << endl;
+      cout << "7 - exit application" << endl;
       // get user input
       char user_input;
       cin >> user_input;
-      // check if input is valid
-      cout << "user_input = " << user_input << "" << endl;
       // select option from available list
       switch (user_input)
       {
@@ -64,18 +64,16 @@ int main(int argc, char *argv[])
       {
          cout << "Type the title of the book you wish to return." << endl;
          string user_input;
+         // get user input
          cin >> user_input;
          lib.return_book(user_input);
-         // get user input
-         // check if input is valid
-         // check to see if key exists in map of database
-         // check to see if
          break;
       };
       case '4':
       {
          cout << "Currently Checkedout Books:" << endl;
          // prints out list of checked out books
+         lib.display_checked_out_books();
          break;
       };
       case '5':
@@ -88,13 +86,21 @@ int main(int argc, char *argv[])
       };
       case '6':
       {
+         cout << "Type the Title of the Book You Wish to Read" << endl;
+         string user_input;
+         cin >> user_input;
+         lib.preview_book(user_input);
+         break;
+      };
+      case '7':
+      {
          cout << "Closing Application" << endl;
          exit(0);
          break;
       };
       default:
       {
-         cout << "user_input = " + user_input << endl;
+         cout << "Invalid User Input, Please Select Another Option." << endl;
          break;
       };
       }
