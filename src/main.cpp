@@ -1,24 +1,58 @@
 #include <iostream>
+#include <fstream>
+#include <direct.h>
 #include "book.h"
 #include "library.h"
 
 using namespace std;
 
+Library lib = Library();
+
+// private
+void import_book_file(string file_name)
+{
+   try
+   {
+      cout << "reading file " << file_name << endl;
+      string tmp_str = "../books/" + file_name + ".txt";
+      fstream newfile;
+      newfile.open(tmp_str, ios::in); //open a file to perform read operation using file object
+      if (newfile.is_open())
+      { //checking whether the file is open
+         string tp;
+         string contents;
+         //read data from file object and put it into string.
+         while (getline(newfile, tp))
+         {
+            //append the data of the string to contents
+            contents.append(tp + "\n");
+         }
+         newfile.close(); //close the file object.
+         Book tmp_book = Book(file_name,"description",contents);
+         lib.add_book(tmp_book);
+      }
+      else
+      {
+         cout << "file not open" << endl;
+      }
+   }
+   catch (exception &e)
+   {
+      cout << e.what() << endl;
+   }
+}
+
 // main() is where program execution begins.
 int main(int argc, char *argv[])
 {
    // load library
-   Library lib = Library();
+
    // load books into database
    try
    {
-      Book book1 = Book("title", "11", "111");
-      Book book2 = Book("title2", "22", "222");
-      Book book3 = Book("title3", "33", "333");
-
-      lib.add_book(book1);
-      lib.add_book(book2);
-      lib.add_book(book3);
+      import_book_file("alice");
+      import_book_file("crowd");
+      import_book_file("ironheel");
    }
    catch (invalid_argument &e)
    {
@@ -89,7 +123,7 @@ int main(int argc, char *argv[])
          cout << "Type the Title of the Book You Wish to Read" << endl;
          string user_input;
          cin >> user_input;
-         lib.preview_book(user_input);
+         lib.read_book(user_input);
          break;
       };
       case '7':

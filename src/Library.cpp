@@ -14,9 +14,7 @@ void Library::add_book(Book book)
 {
     try
     {
-        cout << "Adding Book Title: " << book.get_title() << endl;
         database.insert(make_pair(book.get_title(), book));
-        cout << "Title: " << database.at(book.get_title()).get_title() << " has been added to the Library." << endl;
     }
     catch (exception &e)
     {
@@ -30,10 +28,9 @@ void Library::remove_book(string book_title)
     {
         if (book_title.length() > 0 && book_title.length() <= Book::max_title_length)
         {
-            if (does_book_exist_in_database(book_title))
+            if (does_book_exist_in_database(&database, book_title))
             {
                 database.erase(book_title);
-                cout << "Title: " << book_title << " has been removed from the Library." << endl;
             }
             else
             {
@@ -60,7 +57,7 @@ void Library::checkout_book(string book_title)
         if (book_title.length() > 0 && book_title.length() <= Book::max_title_length)
         {
             // if title exists in map switch checkout flag to true
-            if (does_book_exist_in_database(book_title))
+            if (does_book_exist_in_database(&database, book_title))
             {
                 if (database.at(book_title).get_checkout_status() != true)
                 {
@@ -128,10 +125,40 @@ void Library::preview_book(string book_title)
         if (book_title.length() > 0 && book_title.length() <= Book::max_title_length)
         {
             // if title exists in map switch checkout flag to true
-            if (does_book_exist_in_database(book_title))
+            if (does_book_exist_in_database(&database, book_title))
             {
                 cout << "Title:\n\t" << database.at(book_title).get_title() << endl;
-                cout << "Description\n\t" << database.at(book_title).get_description() << endl;
+                cout << "Description:\n\t" << database.at(book_title).get_description() << endl;
+            }
+            else
+            {
+                throw exception("Error: Book Does Not Exist In Database");
+            }
+        }
+        else
+        {
+            throw invalid_argument("Error: Book Length Error");
+        }
+    }
+    catch (exception &e)
+    {
+        cout << e.what() << endl;
+    }
+}
+
+void Library::read_book(string book_title)
+{
+    // check if book exists in database
+    try
+    {
+        // check user input
+        if (book_title.length() > 0 && book_title.length() <= Book::max_title_length)
+        {
+            // if title exists in map switch checkout flag to true
+            if (does_book_exist_in_database(&database, book_title))
+            {
+                cout << "Title:\n\t" << database.at(book_title).get_title() << endl;
+                cout << "Contents:\n\t" << database.at(book_title).get_contents() << endl;
             }
             else
             {
@@ -153,12 +180,9 @@ void Library::display_available_books()
 {
 
     map<string, Book>::iterator it;
-    cout << "display_available_books" << endl;
-    cout << database.size() << endl;
     // loop through map displaying title of each book
     for (it = database.begin(); it != database.end(); it++)
     {
-        cout << "display_available_books" << endl;
         cout << "Title: " << it->first << endl;
         if (it->second.get_checkout_status() == 0)
         {
@@ -174,8 +198,6 @@ void Library::display_available_books()
 void Library::display_checked_out_books()
 {
     map<string, Book>::iterator it;
-    cout << "display_checked_out_books" << endl;
-    cout << checked_out_database.size() << endl;
     // loop through map displaying title of each book
     for (it = checked_out_database.begin(); it != checked_out_database.end(); it++)
     {
@@ -191,12 +213,12 @@ int Library::get_database_size()
 
 // checks to see if a specific book exists in the database
 // by checked if the book title matches possible keys available
-bool Library::does_book_exist_in_database(string book_title)
+bool Library::does_book_exist_in_database(map<string, Book> *database_to_search, string book_title)
 {
     try
     {
         map<string, Book>::iterator it;
-        if (database.find(book_title) != database.end())
+        if (database_to_search->find(book_title) != database_to_search->end())
         {
             return true;
         }
