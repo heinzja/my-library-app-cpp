@@ -26,7 +26,7 @@ void Library::remove_book(string book_title)
 {
     try
     {
-        if (book_title.length() > 0 && book_title.length() <= Book::max_title_length)
+        if (book_title.length() > 0 && book_title.length() <= Book::MAX_TITLE_LENGTH)
         {
             if (does_book_exist_in_database(&database, book_title))
             {
@@ -54,7 +54,7 @@ void Library::checkout_book(string book_title)
     try
     {
         // check user input
-        if (book_title.length() > 0 && book_title.length() <= Book::max_title_length)
+        if (book_title.length() > 0 && book_title.length() <= Book::MAX_TITLE_LENGTH)
         {
             // if title exists in map switch checkout flag to true
             if (does_book_exist_in_database(&database, book_title))
@@ -92,7 +92,7 @@ void Library::return_book(string book_title)
     try
     {
         // check user input
-        if (book_title.length() > 0 && book_title.length() <= Book::max_title_length)
+        if (book_title.length() > 0 && book_title.length() <= Book::MAX_TITLE_LENGTH)
         {
             // if title exists in map switch checkout flag to true
             if (database.at(book_title).get_checkout_status() != false)
@@ -122,7 +122,7 @@ void Library::preview_book(string book_title)
     try
     {
         // check user input
-        if (book_title.length() > 0 && book_title.length() <= Book::max_title_length)
+        if (book_title.length() > 0 && book_title.length() <= Book::MAX_TITLE_LENGTH)
         {
             // if title exists in map switch checkout flag to true
             if (does_book_exist_in_database(&database, book_title))
@@ -152,7 +152,7 @@ void Library::read_book(string book_title)
     try
     {
         // check user input
-        if (book_title.length() > 0 && book_title.length() <= Book::max_title_length)
+        if (book_title.length() > 0 && book_title.length() <= Book::MAX_TITLE_LENGTH)
         {
             // if title exists in map switch checkout flag to true
             if (does_book_exist_in_database(&database, book_title))

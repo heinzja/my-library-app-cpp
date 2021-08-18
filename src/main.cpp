@@ -28,7 +28,7 @@ void import_book_file(string file_name)
             contents.append(tp + "\n");
          }
          newfile.close(); //close the file object.
-         Book tmp_book = Book(file_name,"description",contents);
+         Book tmp_book = Book(file_name, "description", contents);
          lib.add_book(tmp_book);
       }
       else
@@ -45,8 +45,6 @@ void import_book_file(string file_name)
 // main() is where program execution begins.
 int main(int argc, char *argv[])
 {
-   // load library
-
    // load books into database
    try
    {
@@ -59,11 +57,11 @@ int main(int argc, char *argv[])
       cout << e.what() << endl;
    }
 
+   // display start-up message
+   cout << "Welcome to the Library" << endl;
+
    while (1 == 1)
    {
-
-      // display start-up message
-      cout << "Welcome to the Library" << endl;
 
       // display Library Menu
       cout << "1 - view all library books" << endl;

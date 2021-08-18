@@ -11,9 +11,9 @@ using namespace std;
 class Book
 {
 public:
-    static const unsigned int max_title_length = 10;
-    static const unsigned int max_description_length = 10000;
-    static const unsigned int max_contents_length = 1500000;
+    static const unsigned int MAX_TITLE_LENGTH = 10;
+    static const unsigned int MAX_DESCRIPTION_LENGTH = 10000;
+    static const unsigned int MAX_CONTENTS_LENGTH = 1500000;
     Book(std::string title, std::string description, std::string contents);
     std::string Book::get_title();
     std::string Book::get_description();

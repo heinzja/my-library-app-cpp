@@ -44,51 +44,43 @@ bool Book::get_checkout_status()
 }
 
 // basic setter to update book title
-// throws invalid_argument if .length < 0 || .length > max_title_length
+// throws invalid_argument if the title length is 0 or greater than MAX_TITLE_LENGTH
 void Book::set_title(string new_title)
 {
-    // check new_title length > 0 and <= max_title_length
-    if (new_title.length() > 0 && new_title.length() <= max_title_length)
+    if (new_title.length() > 0 && new_title.length() <= MAX_TITLE_LENGTH)
     {
         this->title = new_title;
     }
     else
     {
-
-        // throw error
-        throw invalid_argument("Error: set_title() -> title.length()");
+        throw invalid_argument("Error: Title Length");
     }
 }
 
 // basic setter to update book description
-// @throws invalid_argument if .length < 0 || .length > max_title_length
+// @throws invalid_argument if the books description is 0 or greater than MAX_DESCRIPTION_LENGTH
 void Book::set_description(string new_description)
 {
-    // check new_description length > 0 and <= max_description_length
-    if (new_description.length() > 0 && new_description.length() <= max_description_length)
+    if (new_description.length() > 0 && new_description.length() <= MAX_DESCRIPTION_LENGTH)
     {
         this->description = new_description;
     }
     else
     {
-
-        // throw error
-        throw invalid_argument("Error: set_description() -> description.length()");
+        throw invalid_argument("Error: Description Length");
     }
 }
 
 // basic setter to update book contents
-// @throws invalid_argument if .length < 0 || .length > max_title_length
+// @throws invalid_argument if book contents length is 0 or is greater than MAX_TITLE_LENGTH
 void Book::set_contents(string new_contents)
 {
-    // check new_contents length > 0 and <= max_contents_length
-    if (new_contents.length() > 0 && new_contents.length() <= max_contents_length)
+    if (new_contents.length() > 0 && new_contents.length() <= MAX_CONTENTS_LENGTH)
     {
         this->contents = new_contents;
     }
     else
     {
-        // throw error
         throw invalid_argument("Error: set_contents() -> contents.length()");
     }
 }
