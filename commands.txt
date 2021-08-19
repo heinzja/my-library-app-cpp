@@ -1,2 +1,2 @@
 build / compile command
-cl /EHsc src\main.cpp src\*.cpp /I "include" /link /out:"out\main.exe"
+cl /std:c++17 /Zi /EHsc src\*.cpp /I "include" /link /out:"out\main.exe"

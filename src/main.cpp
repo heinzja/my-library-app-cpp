@@ -1,22 +1,22 @@
 #include <iostream>
 #include <fstream>
 #include <direct.h>
+#include <filesystem>
 #include "book.h"
 #include "library.h"
+namespace fs = std::filesystem;
 
 using namespace std;
 
 Library lib = Library();
 
 // private
-void import_book_file(string file_name)
+void import_book_file(string file_path)
 {
    try
    {
-      cout << "reading file " << file_name << endl;
-      string tmp_str = "../books/" + file_name + ".txt";
       fstream newfile;
-      newfile.open(tmp_str, ios::in); //open a file to perform read operation using file object
+      newfile.open(file_path, ios::in); //open a file to perform read operation using file object
       if (newfile.is_open())
       { //checking whether the file is open
          string tp;
@@ -28,7 +28,7 @@ void import_book_file(string file_name)
             contents.append(tp + "\n");
          }
          newfile.close(); //close the file object.
-         Book tmp_book = Book(file_name, "description", contents);
+         Book tmp_book = Book(file_path.substr(9), "description", contents);
          lib.add_book(tmp_book);
       }
       else
@@ -48,9 +48,11 @@ int main(int argc, char *argv[])
    // load books into database
    try
    {
-      import_book_file("alice");
-      import_book_file("crowd");
-      import_book_file("ironheel");
+      std::string path = "../books/";
+      for (const auto &entry : fs::directory_iterator(path))
+      {
+         import_book_file(entry.path().generic_string());
+      }
    }
    catch (invalid_argument &e)
    {
